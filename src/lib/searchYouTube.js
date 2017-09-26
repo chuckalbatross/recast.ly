@@ -23,7 +23,7 @@ var searchYouTube = (options, callback) => {
 
       //iterate through the data.items array, pushing the objects to callback
       // for (var i = 0; i < data.items.length; i++) {
-        // callback({videoList: data.items});
+      // callback({videoList: data.items});
       // }
     },
     error: function (data) {

@@ -25,8 +25,9 @@ class App extends React.Component {
       videoPlaying: window.exampleVideoData[0],
       videoList: [],
       searchQuery: '',
-      deBounce: false
-    }
+      deBounce: false,
+      autoplayState: false
+    };
   }
 
   onVideoListEntryClick(currVideo) {
@@ -35,14 +36,14 @@ class App extends React.Component {
 
   onSearch(searchInput) {
 
-    this.setState({ searchQuery: searchInput })
+    this.setState({ searchQuery: searchInput });
 
     //bind this context
     var context = this;
     setInterval(() => {
       //deBounce prevents it from searching repeatedly. Only searches when searchQuery changes
       if (!context.state.deBounce) {
-        context.setState({ deBounce: true })
+        context.setState({ deBounce: true });
         context.props.search({query: context.state.searchQuery}, context.setState.bind(context));
       }
     }, 500);
@@ -57,11 +58,21 @@ class App extends React.Component {
     // this.props.search(options, this.setState.bind(this));
   }
 
+  setAutoplay() {
+    this.setState({ autoplayState: !this.state.autoplayState })
+  }
+
   componentDidMount() {
     this.props.search('filler', this.setState.bind(this)); 
   }
 
   render() {
+    //convert autoplayState boolean to 0 or 1 (for src url) and OFF or ON (for button text)
+    var autoplay = {
+      autoplayInt : this.state.autoplayState ? 1 : 0,
+      autoplayString : this.state.autoplayState ? 'ON' : 'OFF'
+    };
+
     return (
       <div>
         <nav className="navbar">
@@ -71,7 +82,11 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.videoPlaying} />
+            <VideoPlayer 
+              video={this.state.videoPlaying} 
+              autoplay={autoplay}
+              autoplayClick={this.setAutoplay.bind(this)}
+            />
           </div>
           <div className="col-md-5">
             <VideoList 
@@ -81,7 +96,7 @@ class App extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

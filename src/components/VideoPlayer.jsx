@@ -1,9 +1,13 @@
 var VideoPlayer = (props) => (
   <div className="video-player">
     <div className="embed-responsive embed-responsive-16by9">
-      <iframe className="embed-responsive-item" src={"https://www.youtube.com/embed/" + props.video.id.videoId} allowFullScreen></iframe>
+      <iframe className="embed-responsive-item" src={"https://www.youtube.com/embed/" + props.video.id.videoId + "?autoplay=" + props.autoplay.autoplayInt} allowFullScreen></iframe>
     </div>
     <div className="video-player-details">
+      <button type="button" className="btn btn-secondary" 
+        onClick={() => { props.autoplayClick() } }
+        >{"Autoplay " + props.autoplay.autoplayString}
+      </button>
       <h3> {props.video.snippet.title} </h3>
       <div> {props.video.snippet.description} </div>
     </div>
